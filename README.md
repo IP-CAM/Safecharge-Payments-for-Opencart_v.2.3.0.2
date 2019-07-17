@@ -1,5 +1,5 @@
 # safecharge_open_cart_V.2.3.0.2
-
+SafeCharge plugin for OpenCart versions from 2.3.0.2 to before 3.0.0.0
 How to install the plugin
 
 1. Upload the containt of upload folder to your OpenCart root directory.
