@@ -1266,48 +1266,51 @@ class ControllerExtensionPaymentSafeCharge extends Controller
      */
     private function update_custom_payment_fields($order_id, $data = array(), $overwrite = true)
     {
-        // TODO pass the fields instead to get them. We got them at the plece where
-        // we call this method.
-        $query = $this->db->query(
-            "SELECT `payment_custom_field` FROM `" . DB_PREFIX . "order` "
-            . "WHERE order_id = " . intval($order_id));
-        
-        $payment_custom_fields = $query->row['payment_custom_field'];
-        
-        // get the fields as array
-        if($payment_custom_fields && is_string($payment_custom_fields)) {
-            $payment_custom_fields = json_decode($payment_custom_fields, true);
-        }   
-        
-        if(empty($data)) {
-            $data = array(
-                SC_AUTH_CODE_KEY => isset($_REQUEST['AuthCode']) ? $_REQUEST['AuthCode'] : '',
-                SC_GW_TRANS_ID_KEY => isset($_REQUEST['TransactionID']) ? $_REQUEST['TransactionID'] : '',
-                SC_GW_P3D_RESP_TR_TYPE => isset($_REQUEST['transactionType']) ? $_REQUEST['transactionType'] : '',
-            );
+    	try {
+		// TODO pass the fields instead to get them. We got them at the plece where
+		// we call this method.
+		$query = $this->db->query(
+		    "SELECT `payment_custom_field` FROM `" . DB_PREFIX . "order` "
+		    . "WHERE order_id = " . intval($order_id));
 
-            if(isset($_REQUEST['payment_method']) && $_REQUEST['payment_method']) {
-                $data['_paymentMethod'] = $_REQUEST['payment_method'];
-            }
-        }
-        
-        if($overwrite) {
-            foreach($data as $key => $val) {
-                $payment_custom_fields[$key] = $val;
-            }
-        }
-        // append data
-        else {
-            foreach($data as $key => $val) {
-                $payment_custom_fields[$key][] = $val;
-            }
-        }
-        
-        // update custom payment fields
-        $this->db->query(
-            "UPDATE `" . DB_PREFIX . "order` SET `payment_custom_field` = '"
-            . json_encode($payment_custom_fields) . "' WHERE `order_id` = " . $order_id
-        );
+		$payment_custom_fields = $query->row['payment_custom_field'];
+
+		// get the fields as array
+		if($payment_custom_fields && is_string($payment_custom_fields)) {
+		    $payment_custom_fields = json_decode($payment_custom_fields, true);
+		}   
+
+		if(empty($data)) {
+		    $data = array(
+			SC_AUTH_CODE_KEY => isset($_REQUEST['AuthCode']) ? $_REQUEST['AuthCode'] : '',
+			SC_GW_TRANS_ID_KEY => isset($_REQUEST['TransactionID']) ? $_REQUEST['TransactionID'] : '',
+			SC_GW_P3D_RESP_TR_TYPE => isset($_REQUEST['transactionType']) ? $_REQUEST['transactionType'] : '',
+		    );
+
+		    if(isset($_REQUEST['payment_method']) && $_REQUEST['payment_method']) {
+			$data['_paymentMethod'] = $_REQUEST['payment_method'];
+		    }
+		}
+
+		if($overwrite) {
+		    foreach($data as $key => $val) {
+			$payment_custom_fields[$key] = $val;
+		    }
+		}
+		// append data
+		else {
+		    foreach($data as $key => $val) {
+			$payment_custom_fields[$key][] = $val;
+		    }
+		}
+
+		// update custom payment fields
+		$this->db->query(
+		    "UPDATE `" . DB_PREFIX . "order` SET `payment_custom_field` = '"
+		    . json_encode($payment_custom_fields) . "' WHERE `order_id` = " . $order_id
+		);
+	}
+    	catch(Exception $e) { $this->create_log($e->getMessage, 'update_custom_payment_fields exception:'); }
     }
     
     /**
