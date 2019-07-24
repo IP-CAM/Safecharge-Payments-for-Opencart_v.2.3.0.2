@@ -1344,6 +1344,8 @@ class ControllerExtensionPaymentSafeCharge extends Controller
                 if(isset($data['PaRes']) && !empty($data['PaRes'])) {
                     $data['PaRes'] = 'a long string';
                 }
+				
+				$d = print_r($data, true);
             }
             elseif(is_object($data)) {
                 $d = print_r($data, true);
