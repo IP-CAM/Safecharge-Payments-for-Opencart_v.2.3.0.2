@@ -1368,71 +1368,6 @@ class ControllerExtensionPaymentSafeCharge extends Controller
      */
     private function update_custom_payment_fields($order_id, $data = array(), $overwrite = true)
     {
-<<<<<<< HEAD
-    	try {
-		// TODO pass the fields instead to get them. We got them at the plece where
-		// we call this method.
-		$query = $this->db->query(
-		    "SELECT `payment_custom_field` FROM `" . DB_PREFIX . "order` "
-		    . "WHERE order_id = " . intval($order_id));
-
-		$payment_custom_fields = $query->row['payment_custom_field'];
-
-		// get the fields as array
-		if($payment_custom_fields && is_string($payment_custom_fields)) {
-		    $payment_custom_fields = json_decode($payment_custom_fields, true);
-		}   
-
-		if(empty($data)) {
-		    $data = array(
-			SC_AUTH_CODE_KEY => isset($_REQUEST['AuthCode']) ? $_REQUEST['AuthCode'] : '',
-			SC_GW_TRANS_ID_KEY => isset($_REQUEST['TransactionID']) ? $_REQUEST['TransactionID'] : '',
-			SC_GW_P3D_RESP_TR_TYPE => isset($_REQUEST['transactionType']) ? $_REQUEST['transactionType'] : '',
-		    );
-
-		    if(isset($_REQUEST['payment_method']) && $_REQUEST['payment_method']) {
-			$data['_paymentMethod'] = $_REQUEST['payment_method'];
-		    }
-		}
-
-		if($overwrite) {
-		    foreach($data as $key => $val) {
-			$payment_custom_fields[$key] = $val;
-		    }
-		}
-		// append data
-		else {
-		    foreach($data as $key => $val) {
-			$payment_custom_fields[$key][] = $val;
-		    }
-		}
-
-		// update custom payment fields
-		$this->db->query(
-		    "UPDATE `" . DB_PREFIX . "order` SET `payment_custom_field` = '"
-		    . json_encode($payment_custom_fields) . "' WHERE `order_id` = " . $order_id
-		);
-	}
-    	catch(Exception $e) { $this->create_log($e->getMessage, 'update_custom_payment_fields exception:'); }
-    }
-    
-    /**
-     * Function create_log
-     * Create logs. You MUST have defined SC_LOG_FILE_PATH const,
-     * holding the full path to the log file.
-     * 
-     * @param mixed $data
-     * @param string $title - title of the printed log
-     */
-    private function create_log($data, $title = '')
-    {
-        if(
-            @$this->config->get('create_logs') == 'yes' 
-            || @$this->session->data['create_logs'] == 'yes' 
-            || @$_REQUEST['create_logs'] == 'yes'
-        ) {
-            $d = $data;
-=======
         try {
             // TODO pass the fields instead to get them. We got them at the plece where
             // we call this method.
@@ -1441,7 +1376,6 @@ class ControllerExtensionPaymentSafeCharge extends Controller
                 . "WHERE order_id = " . intval($order_id));
 
             $payment_custom_fields = $query->row['payment_custom_field'];
->>>>>>> v1.1
 
             // get the fields as array
             if($payment_custom_fields && is_string($payment_custom_fields)) {
@@ -1458,8 +1392,6 @@ class ControllerExtensionPaymentSafeCharge extends Controller
                 if(isset($_REQUEST['payment_method']) && $_REQUEST['payment_method']) {
                     $data['_paymentMethod'] = $_REQUEST['payment_method'];
                 }
-				
-				$d = print_r($data, true);
             }
 
             if($overwrite) {
@@ -1484,8 +1416,5 @@ class ControllerExtensionPaymentSafeCharge extends Controller
             SC_LOGGER::create_log($e->getMessage(), 'Exception in update_custom_payment_fields():');
         }
     }
-<<<<<<< HEAD
-=======
     
->>>>>>> v1.1
 }
