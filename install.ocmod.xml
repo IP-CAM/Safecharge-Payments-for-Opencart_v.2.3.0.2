@@ -13,7 +13,7 @@
                 $data['scripts'] = $this->document->getScripts();
             ]]></search>
             <add position="before"><![CDATA[
-                $this->document->addScript('https://dev-mobile.safecharge.com/cdn/WebSdk/dist/safecharge.js');
+                $this->document->addScript('https://cdn.safecharge.com/safecharge_resources/v1/websdk/safecharge.js');
             ]]></add>
         </operation>
     </file>
