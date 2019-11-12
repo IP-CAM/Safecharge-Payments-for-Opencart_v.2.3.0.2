@@ -158,11 +158,7 @@
                             <button class="btn btn-danger btn-xs sc_order_btns" onclick="scOrderActions('<?= $sc_order_confirm_cancel; ?>', 'void', <?= $order_id; ?>)"><?= $sc_btn_void; ?></button>
                         <?php endif; ?>
 
-                        <?php if(
-                            $order_status_id == 1
-                            && @$order_resp_tr_type == 'Auth'
-                            && @$sc_gw_tr_type == 'Auth'
-                        ): ?>
+                        <?php if($order_status_id == 1 && @$order_resp_tr_type == 'Auth'): ?>
                             <button class="btn btn-success btn-xs sc_order_btns" onclick="scOrderActions('<?= $sc_order_confirm_settle; ?>', 'settle', <?= $order_id; ?>)"><?= $sc_btn_settle; ?></button>
                         <?php endif; ?>
                     </td>
