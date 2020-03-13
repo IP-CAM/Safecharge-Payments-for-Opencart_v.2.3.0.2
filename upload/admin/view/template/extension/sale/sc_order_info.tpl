@@ -119,7 +119,7 @@
               
                 <!-- Refund button -->
                 <?php if(
-                    $order_status_id == 5
+					in_array($order_status_id, array(5, 11))
                     && in_array($paymentMethod, array('cc_card', 'dc_card', 'apmgw_expresscheckout'))
                     && floatval($remainingTotal) > 0
                 ): ?>
@@ -135,7 +135,9 @@
                                 <span class="input-group-btn">
                                     <button class="btn btn-danger btn-xs sc_order_btns" type="button" onclick="scOrderActions('<?= $sc_order_confirm_refund; ?>', 'refundManual', <?= $order_id; ?>)"><?= $sc_btn_manual_refund; ?></button>
                                     
-                                    <button class="btn btn-danger btn-xs sc_order_btns" type="button" onclick="scOrderActions('<?= $sc_order_confirm_refund; ?>', 'refund', <?= $order_id; ?>)"><?= $sc_btn_refund; ?></button>
+									<?php if($order_status_id == 5): ?>
+										<button class="btn btn-danger btn-xs sc_order_btns" type="button" onclick="scOrderActions('<?= $sc_order_confirm_refund; ?>', 'refund', <?= $order_id; ?>)"><?= $sc_btn_refund; ?></button>
+									<?php endif; ?>
                                </span>
                             </div>
                         </td>
